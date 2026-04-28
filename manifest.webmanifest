@@ -1,0 +1,19 @@
+{
+  "name": "你我满愿",
+  "short_name": "你我满愿",
+  "description": "A mobile-friendly diary app with offline support and WebDAV backup.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fff8f6",
+  "theme_color": "#f6c2cf",
+  "lang": "zh-CN",
+  "icons": [
+    {
+      "src": "assets/app-preview.png",
+      "sizes": "2048x2048",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

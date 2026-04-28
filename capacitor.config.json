@@ -1,0 +1,25 @@
+{
+  "appId": "com.example.immersivediary.mobile",
+  "appName": "你我满愿",
+  "webDir": "mobile-web",
+  "bundledWebRuntime": false,
+  "backgroundColor": "#FFFBF5",
+  "android": {
+    "backgroundColor": "#FFFBF5"
+  },
+  "server": {
+    "androidScheme": "https",
+    "allowNavigation": ["*"]
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0,
+      "launchAutoHide": false,
+      "backgroundColor": "#FFFBF5",
+      "showSpinner": false,
+      "androidScaleType": "CENTER",
+      "splashFullScreen": false,
+      "splashImmersive": false
+    }
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "name": "immersive-diary",
+  "version": "1.0.0",
+  "description": "A simple diary application.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder",
+    "mobile:prepare": "node scripts/prepare-mobile-web.js",
+    "mobile:sync": "npm run mobile:prepare && npx cap sync android",
+    "mobile:apk": "npm run mobile:sync && cd android && gradlew.bat assembleDebug"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@capacitor/android": "^8.2.0",
+    "@capacitor/app": "^8.0.0",
+    "@capacitor/cli": "^8.2.0",
+    "@capacitor/core": "^8.2.0",
+    "@capacitor/splash-screen": "^8.0.1",
+    "file-saver": "^2.0.5",
+    "jszip": "^3.10.1",
+    "node-cron": "^3.0.3",
+    "quill": "^2.0.3",
+    "webdav": "^5.7.1"
+  },
+  "devDependencies": {
+    "electron": "^37.2.6",
+    "electron-builder": "^26.0.12",
+    "png-to-ico": "^3.0.1"
+  },
+  "build": {
+    "appId": "com.example.immersivediary",
+    "productName": "Immersive Diary",
+    "publish": null,
+    "files": [
+      "**/*",
+      "!node_modules/.bin"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "assets/app.ico",
+      "forceCodeSigning": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  }
+}

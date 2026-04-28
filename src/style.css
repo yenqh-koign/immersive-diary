@@ -1,0 +1,1510 @@
+/* General Body Styles */
+:root {
+    --header-total: 195px;  /* body padding + app header + calendar padding/border + calendar header + weekdays */
+    --grid-gap: 5px;
+    --cell-size: calc((100vh - var(--header-total) - 5 * var(--grid-gap)) / 6);
+}
+
+body {
+    font-family: "LXGW WenKai Mono TC", "LXGW WenKai", "system-ui", -apple-system, sans-serif;
+    background-color: #FFFBF5;
+    margin: 0;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    color: #5D5B6A;
+    height: 100vh;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.main-container {
+    width: calc(7 * var(--cell-size) + 6 * var(--grid-gap) + 50px);
+    max-width: 100%;
+    text-align: center;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.app-header h1 {
+    font-size: 28px;
+    font-family: 'ZCOOL KuaiLe', 'Lora', serif;
+    color: #5D5B6A;
+    margin: 0;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.header-actions .header-icon-btn {
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 10px;
+    cursor: pointer;
+    color: #A5A3B3;
+    transition: all 0.2s ease;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-actions .header-icon-btn:hover {
+    color: var(--theme-primary, #FFC0CB);
+    background: var(--theme-primary, #FFC0CB);
+    border-color: transparent;
+}
+
+.header-actions .header-icon-btn:hover svg {
+    stroke: white;
+}
+
+/* === NEW CALENDAR STYLES START === */
+.calendar-container {
+    background-color: #FDFDFD;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+    padding: 12px;
+    border: 1px solid #F0F0F0;
+    overflow: hidden;
+}
+
+/* Calendar Header */
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    padding: 0 5px;
+}
+
+#current-month-year {
+    font-size: 24px;
+    font-weight: 600;
+    font-family: 'Lora', serif;
+    color: #333333;
+}
+
+.nav-btn, #today-btn {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: #999999;
+    transition: all 0.2s ease;
+}
+
+.nav-btn:hover, #today-btn:hover {
+    color: #4A90E2;
+}
+
+#today-btn {
+    font-size: 14px;
+    font-weight: 500;
+    background-color: #F0F0F0;
+    color: #333333;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+#today-btn:hover {
+    background-color: #E8F0FE;
+    color: #4A90E2;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+/* Calendar Grid */
+.weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, var(--cell-size));
+    gap: var(--grid-gap);
+    margin-bottom: 5px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #999999;
+    text-align: center;
+    justify-content: center;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, var(--cell-size));
+    grid-template-rows: repeat(6, var(--cell-size));
+    gap: var(--grid-gap);
+    justify-content: center;
+}
+
+.date-cell {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease-out;
+    position: relative;
+    padding: 6px;
+    background-color: #FFFFFF;
+    border: 1px solid #F0F0F0;
+    box-sizing: border-box;
+    min-width: 0;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+}
+
+.date-cell:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border-color: #E8F0FE;
+}
+
+.date-cell.other-month {
+    background-color: #F7F7F7; /* A slightly darker background */
+}
+
+.date-cell.other-month .date-number {
+    color: #BBBBBB; /* Lighter text color */
+}
+
+.date-cell.other-month .entries-summary {
+    opacity: 0.6; /* Keep summary text less prominent */
+}
+
+.date-number {
+    font-family: 'Lora', serif;
+    font-size: 16px;
+    color: #333333;
+    margin-bottom: 4px;
+    align-self: flex-start; /* Align number to the left */
+}
+
+.date-cell.weekend .date-number {
+    color: #999999;
+}
+
+.date-cell.today .date-number {
+    color: #D9534F;
+    font-weight: 600;
+}
+
+.date-cell.today {
+    background-color: #FFF2F0;
+    border-color: #D9534F;
+}
+
+.date-cell.selected {
+    background-color: #E8F0FE;
+    border: 2px solid #4A90E2;
+    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.2);
+}
+
+.entries-summary {
+    font-size: 12px;
+    line-height: 1.35;
+    color: #555555;
+    text-align: left;
+    overflow: hidden;
+    flex-grow: 1;
+    width: 100%;
+    margin-top: 6px;
+}
+
+.entry-item {
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: unset;
+    margin-bottom: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+}
+
+.entry-item.important {
+    font-weight: 600;
+    color: #F7C5A6;
+}
+
+/* Replaces mood-dot */
+.entry-marker {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: #A7C7E7; /* Default entry color */
+    position: absolute;
+    top: 8px;
+    right: 8px;
+}
+
+.entry-marker.important {
+    background-color: #F7C5A6; /* Important entry color */
+}
+/* === NEW CALENDAR STYLES END === */
+
+/* Mood Palette */
+.date-cell.has-entry .mood-dot.happy { background-color: #FFD166; }
+.date-cell.has-entry .mood-dot.calm { background-color: #83D4F5; }
+.date-cell.has-entry .mood-dot.sad { background-color: #BFC0C6; }
+.date-cell.has-entry .mood-dot.angry { background-color: #FF6B6B; }
+.date-cell.has-entry .mood-dot.surprised { background-color: #C792EA; }
+
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    /* backdrop-filter 移除，改用 .main-container 的 filter blur 以优化GPU性能 */
+}
+
+.modal-overlay.hidden {
+    display: none;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.modal-content {
+    background-color: #FFFFFF;
+    padding: 30px;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
+    position: relative;
+    animation: fadeIn 0.3s ease-out, slideUp 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(10px); }
+    to { transform: translateY(0); }
+}
+
+.modal-title {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 22px;
+    font-family: 'Lora', serif;
+    color: #5D5B6A;
+}
+
+#editor-container {
+    height: 250px; /* Give the container a height */
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #EAEAEA;
+    border-radius: 12px;
+    overflow: hidden; /* Ensure children follow border radius */
+}
+
+#editor {
+    /* This div is now just a container, most styling moves to Quill's own elements */
+    height: 100%;
+}
+
+/* Quill Toolbar Styles */
+.ql-toolbar.ql-snow {
+    background-color: #fff;
+    border: none;
+    border-bottom: 1px solid #EAEAEA;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    padding: 12px;
+    flex-shrink: 0; /* Prevent toolbar from shrinking */
+    /* position: relative; REMOVED to allow JS positioning */
+}
+
+/* Quill Editor Container Styles */
+.ql-container.ql-snow {
+    border: none;
+    flex-grow: 1; /* Allow editor to take up remaining space */
+    overflow-y: auto; /* Confine scrolling to the editor area */
+    background-color: #FFFBF5;
+}
+
+.ql-editor {
+    font-family: "LXGW WenKai Mono TC", "LXGW WenKai", "system-ui", -apple-system, sans-serif;
+    color: #5D5B6A;
+}
+
+.ql-editor.ql-blank::before {
+    color: #A5A3B3;
+    font-style: normal;
+}
+
+/* Hide Quill's default link tooltip ENTIRELY */
+.ql-tooltip, .ql-tooltip-arrow {
+    display: none !important;
+}
+
+/* Our Custom Link Tooltip */
+.custom-tooltip {
+    position: absolute;
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.15);
+    border: 1px solid #EAEAEA;
+    padding: 10px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    z-index: 2000; /* Ensure it's on top */
+}
+
+.custom-tooltip.hidden {
+    display: none;
+}
+
+#custom-link-input {
+    border-radius: 8px;
+    border: 1px solid #EAEAEA;
+    background-color: #FFFBF5;
+    padding: 5px 8px;
+    color: #5D5B6A;
+    font-family: inherit;
+}
+
+#custom-link-save-btn {
+    padding: 5px 10px;
+    border: 1px solid #FFC0CB;
+    background-color: #FFC0CB;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+#custom-link-save-btn:hover {
+    background-color: #F7A8B8;
+    border-color: #F7A8B8;
+}
+
+.ql-tooltip.ql-editing input[type=text] {
+    border-radius: 8px;
+    border: 1px solid #EAEAEA;
+    background-color: #FFFBF5;
+    padding: 5px;
+    color: #5D5B6A;
+}
+
+.ql-tooltip.ql-editing a.ql-action::after {
+    color: #FFC0CB;
+    content: '保存';
+    padding: 2px 5px;
+    border-radius: 4px;
+    border: 1px solid #FFC0CB;
+}
+
+.metadata-placeholder {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    color: #7f8c8d;
+    text-align: center;
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 28px;
+    color: #A5A3B3;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.close-btn:hover {
+    color: #FF6B6B;
+    transform: rotate(90deg);
+}
+/* Search Section Styles (now inside a modal) */
+
+.search-box {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.search-filters {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+}
+
+.search-filter-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #777;
+}
+
+.search-date-input {
+    border: 1px solid #E0E0E0;
+    border-radius: 8px;
+    padding: 5px 8px;
+    font-size: 13px;
+    color: #555;
+    background: #fff;
+}
+
+.search-date-input:focus {
+    outline: none;
+    border-color: #9AC2F5;
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.15);
+}
+
+.custom-date-input {
+    cursor: pointer;
+    user-select: none;
+}
+
+#search-input {
+    flex-grow: 1;
+    padding: 12px 15px;
+    border: 1px solid #EAEAEA;
+    border-radius: 25px; /* 胶囊状 */
+    font-size: 16px;
+    background-color: #FFFBF5;
+}
+
+#search-input:focus {
+     outline: none;
+    border-color: #FFC0CB;
+    box-shadow: 0 0 0 2px rgba(255, 192, 203, 0.5);
+}
+
+#search-btn {
+    padding: 12px 25px;
+    border: none;
+    background-color: #FFC0CB;
+    color: white;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.2s ease;
+}
+
+#search-btn:hover {
+    background-color: #F7A8B8;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.search-results-container {
+    margin-top: 10px;
+}
+
+.search-result-item {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    border-left: 4px solid #AEE2FF;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-result-item:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+.search-result-item .date {
+    font-weight: bold;
+    color: #5D5B6A;
+    margin-bottom: 5px;
+}
+
+.search-result-item .excerpt {
+    color: #A5A3B3;
+    font-style: normal;
+}
+
+.search-result-item .title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.search-result-item.important {
+    border-left-color: #F7C5A6;
+}
+
+/* On This Day Section (now inside a modal) */
+.on-this-day-content {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.on-this-day-entry {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #FFFBF5;
+}
+
+.on-this-day-entry:last-child {
+    border-bottom: none;
+}
+
+.on-this-day-entry .year {
+    font-weight: bold;
+    color: #FF6B6B;
+}
+
+.on-this-day-entry .content {
+    color: #5D5B6A;
+    margin-top: 5px;
+}
+
+.on-this-day-placeholder {
+    color: #A5A3B3;
+    font-style: normal;
+}
+
+/* Action Buttons in Diary Modal */
+.modal-actions {
+    margin-top: 20px;
+    text-align: right;
+}
+
+.action-btn {
+    padding: 8px 18px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    background-color: #fcf9f5;
+    color: #6d5b5b;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.action-btn:hover {
+    background-color: #f5f0ea;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.action-btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Emotional Feedback Animation */
+@keyframes heart-burst {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0;
+    }
+}
+
+.feedback-heart {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-left: -50px;
+    margin-top: -50px;
+    width: 100px;
+    height: 100px;
+    font-size: 100px;
+    color: #FF6B6B;
+    animation: heart-burst 0.5s ease-out forwards;
+    z-index: 2000;
+    pointer-events: none; /* Make it non-interactive */
+}
+
+/* --- Preview Tooltip Styles --- */
+#preview-tooltip {
+    position: absolute;
+    z-index: 1000;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 12px;
+    max-width: 250px;
+    pointer-events: none; /* So it doesn't interfere with mouse events on the calendar */
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+    animation: fadeIn 0.2s forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#preview-tooltip img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+
+#preview-tooltip p {
+    margin: 0;
+    font-size: 14px;
+    color: #555;
+    line-height: 1.5;
+}
+
+/* Mark Important Checkbox Styles */
+.mark-important-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #555555;
+}
+
+.mark-important-wrapper input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.mark-important-wrapper label {
+    cursor: pointer;
+    font-size: 14px;
+}
+
+/* Adjust modal actions layout */
+.modal-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.diary-modal-actions-right {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+/* --- Date Picker Modal Styles --- */
+.date-picker-content {
+    max-width: 450px;
+    width: 90%;
+}
+
+.date-picker-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.date-picker-body {
+    display: flex;
+    gap: 15px;
+}
+
+.year-selector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    min-width: 100px;
+    flex-shrink: 0;
+}
+
+.year-list {
+    height: 180px;
+    overflow-y: auto;
+    border: 1px solid #F0F0F0;
+    border-radius: 8px;
+    padding: 5px;
+    width: 100%;
+    text-align: center;
+}
+
+.year-item {
+    padding: 6px 8px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+    font-size: 14px;
+}
+
+.year-item:hover {
+    background-color: #F0F0F0;
+}
+
+.year-item.selected {
+    background-color: #E8F0FE;
+    color: #4A90E2;
+    font-weight: 600;
+}
+
+.month-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    flex: 1;
+}
+
+.month-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 8px;
+    cursor: pointer;
+    border-radius: 8px;
+    background-color: #F9F9F9;
+    transition: all 0.2s;
+    font-size: 14px;
+}
+
+.month-item:hover {
+    background-color: #F0F0F0;
+    transform: scale(1.05);
+}
+
+.month-item.selected {
+    background-color: #E8F0FE;
+    color: #4A90E2;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(74, 144, 226, 0.2);
+}
+
+#prev-year-chunk-btn, #next-year-chunk-btn {
+    background: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.action-btn.secondary {
+    background-color: #f0f0f0;
+    color: #555;
+}
+
+/* --- Export Date Modal Styles --- */
+.export-date-content {
+    max-width: 760px;
+    width: 95%;
+}
+
+.export-date-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.export-date-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.export-date-month-label {
+    min-width: 110px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    color: #4A4A4A;
+}
+
+.export-date-quick-actions {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+}
+
+.export-mini-btn {
+    padding: 8px 12px;
+    font-size: 13px;
+}
+
+.export-date-range-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+}
+
+.export-date-range-controls label {
+    font-size: 13px;
+    color: #777;
+}
+
+.export-date-range-input {
+    border: 1px solid #E0E0E0;
+    border-radius: 8px;
+    padding: 6px 8px;
+    font-size: 13px;
+    color: #555;
+    background-color: #fff;
+}
+
+.export-date-range-input:focus {
+    outline: none;
+    border-color: #9AC2F5;
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.15);
+}
+
+.export-date-weekdays,
+.export-date-calendar {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.export-date-weekdays {
+    margin-bottom: 8px;
+    color: #888;
+    font-size: 13px;
+    text-align: center;
+}
+
+.export-date-calendar {
+    margin-bottom: 10px;
+}
+
+.export-date-cell {
+    height: 44px;
+    border: 1px solid #EAEAEA;
+    border-radius: 10px;
+    background-color: #FAFAFA;
+    color: #B5B5B5;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    user-select: none;
+}
+
+.export-date-cell.has-entry {
+    cursor: pointer;
+    color: #444;
+    background-color: #FFFFFF;
+}
+
+.export-date-cell.has-entry:hover {
+    border-color: #B6D4FE;
+    background-color: #F3F8FF;
+}
+
+.export-date-cell.selected {
+    border-color: #4A90E2;
+    background-color: #E8F0FE;
+    color: #2E5E93;
+    box-shadow: 0 1px 4px rgba(74, 144, 226, 0.2);
+}
+
+.export-date-cell.empty {
+    border-color: transparent;
+    background: transparent;
+}
+
+.export-date-cell.has-entry::after {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #58B368;
+    position: absolute;
+    right: 6px;
+    top: 6px;
+}
+
+.export-date-cell.selected::after {
+    background-color: #4A90E2;
+}
+
+.export-date-summary {
+    text-align: left;
+    color: #666;
+    font-size: 14px;
+    margin: 6px 0 10px;
+}
+
+.export-date-preview {
+    border: 1px solid #ECECEC;
+    border-radius: 12px;
+    background-color: #FBFBFB;
+    padding: 12px;
+    margin-bottom: 16px;
+}
+
+.export-date-preview-date {
+    font-size: 14px;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 6px;
+}
+
+.export-date-preview-content {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    min-height: 68px;
+    max-height: 180px;
+    overflow-y: auto;
+}
+
+.recycle-bin-content {
+    max-width: 760px;
+    width: 95%;
+}
+
+.recycle-bin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.recycle-bin-summary {
+    margin: 4px 0 12px;
+    font-size: 14px;
+    color: #666;
+}
+
+.recycle-bin-list {
+    max-height: 380px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.recycle-bin-item {
+    border: 1px solid #ECECEC;
+    border-radius: 12px;
+    padding: 12px;
+    background: #FBFBFB;
+}
+
+.recycle-bin-meta {
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 6px;
+}
+
+.recycle-bin-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #444;
+    margin-bottom: 4px;
+}
+
+.recycle-bin-preview {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #666;
+    white-space: pre-wrap;
+    margin-bottom: 10px;
+}
+
+.recycle-bin-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.simple-date-content {
+    max-width: 420px;
+    width: 92%;
+}
+
+.simple-date-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.simple-date-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.simple-date-month-label-btn {
+    border: 1px solid transparent;
+    background: transparent;
+    border-radius: 10px;
+    padding: 6px 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.simple-date-month-label-btn:hover {
+    border-color: #D9E7FA;
+    background: #F7FBFF;
+}
+
+.simple-date-month-label {
+    min-width: 120px;
+    text-align: center;
+    font-weight: 600;
+    color: #444;
+}
+
+.simple-date-month-picker {
+    border: 1px solid #ECECEC;
+    border-radius: 12px;
+    background: #FBFBFB;
+    padding: 12px;
+    margin-bottom: 12px;
+}
+
+.simple-month-year-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.simple-date-year-label {
+    min-width: 100px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+    color: #444;
+}
+
+.simple-date-month-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.simple-date-month-item {
+    border: 1px solid #E7E7E7;
+    border-radius: 10px;
+    background: #fff;
+    color: #555;
+    padding: 10px 0;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.simple-date-month-item:hover {
+    border-color: #B6D4FE;
+    background: #F2F7FF;
+}
+
+.simple-date-month-item.selected {
+    border-color: #4A90E2;
+    background: #E8F0FE;
+    color: #2E5E93;
+    font-weight: 600;
+}
+
+.simple-month-picker-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.simple-date-weekdays,
+.simple-date-calendar {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 6px;
+}
+
+.simple-date-weekdays {
+    margin-bottom: 6px;
+    color: #888;
+    font-size: 13px;
+    text-align: center;
+}
+
+.simple-date-calendar {
+    margin-bottom: 12px;
+}
+
+.simple-date-cell {
+    height: 38px;
+    border: 1px solid #ECECEC;
+    border-radius: 10px;
+    background: #FAFAFA;
+    color: #555;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.simple-date-cell:hover {
+    border-color: #B6D4FE;
+    background: #F2F7FF;
+}
+
+.simple-date-cell.empty {
+    border-color: transparent;
+    background: transparent;
+    cursor: default;
+}
+
+.simple-date-cell.selected {
+    border-color: #4A90E2;
+    background: #E8F0FE;
+    color: #2E5E93;
+    font-weight: 600;
+}
+
+.simple-date-cell.today {
+    border-color: #F7C5A6;
+}
+
+.simple-date-cell.disabled,
+.simple-date-cell:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+/* Dropdown Styles */
+.header-actions .dropdown {
+    position: relative;
+    /* display: inline-block; */ /* This was causing the layout issue */
+    z-index: 2000;
+}
+
+.header-actions .dropdown-content {
+    display: none; /* Hidden by default */
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 2100;
+    border-radius: 8px;
+    overflow: hidden;
+    right: 0; /* Align to the right of the button */
+}
+
+.header-actions .dropdown-content:not(.hidden) {
+    display: block;
+}
+
+.header-actions .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.header-actions .dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+/* Restore Section Styles */
+.restore-info-container {
+    background-color: #F9F9F9;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #EAEAEA;
+}
+
+.restore-summary p {
+    margin: 10px 0;
+    color: #5D5B6A;
+    font-size: 15px;
+}
+
+.restore-summary strong {
+    color: #333;
+    margin-right: 10px;
+}
+
+.restore-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.action-btn.danger {
+    background: #dc3545;
+    color: #fff;
+    border-color: #dc3545;
+}
+
+.action-btn.danger:hover {
+    background: #c82333;
+    border-color: #c82333;
+}
+
+/* ============================================
+   MOBILE RESPONSIVE STYLES
+   ============================================ */
+
+@media screen and (max-width: 768px) {
+    :root {
+        --cell-size: calc((100vw - 40px - 6 * var(--grid-gap)) / 7);
+        --header-total: auto;
+    }
+
+    body {
+        overflow: hidden;
+        height: 100vh;
+        height: 100dvh;
+        padding: 8px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .main-container {
+        width: 100%;
+        padding: 0 4px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+    }
+
+    .app-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 6px;
+        flex-shrink: 0;
+    }
+
+    .app-header h1 {
+        font-size: 18px;
+        flex-shrink: 0;
+        white-space: nowrap;
+    }
+
+    .header-actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 3px;
+        margin-left: auto;
+    }
+
+    .header-actions .header-icon-btn {
+        padding: 5px;
+    }
+
+    .header-actions .header-icon-btn svg {
+        width: 15px;
+        height: 15px;
+    }
+
+    .calendar-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 8px;
+        overflow: hidden;
+        border-radius: 12px;
+        min-height: 0;
+    }
+
+    .calendar-header {
+        flex-shrink: 0;
+        margin-bottom: 6px;
+        padding: 0 2px;
+    }
+
+    #current-month-year {
+        font-size: 18px;
+    }
+
+    .weekdays {
+        flex-shrink: 0;
+        grid-template-columns: repeat(7, 1fr);
+        font-size: 12px;
+        margin-bottom: 4px;
+    }
+
+    .calendar-grid {
+        flex-shrink: 0;
+        grid-template-columns: repeat(7, var(--cell-size));
+        grid-template-rows: repeat(6, var(--cell-size));
+        gap: 3px;
+        justify-content: center;
+    }
+
+    .timeline-view {
+        display: block !important;
+        flex: 1;
+        overflow-y: auto;
+        padding: 6px 2px;
+        margin-top: 6px;
+        border-top: 1px solid rgba(0,0,0,0.06);
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .timeline-view .timeline-item {
+        padding: 10px 12px;
+        margin-bottom: 6px;
+        border-radius: 10px;
+        border-left-width: 3px;
+    }
+
+    .timeline-view .timeline-date {
+        font-size: 12px;
+        margin-bottom: 4px;
+    }
+
+    .timeline-view .timeline-content {
+        font-size: 13px;
+        line-height: 1.4;
+        -webkit-line-clamp: 2;
+    }
+
+    .date-cell {
+        padding: 3px;
+        border-radius: 8px;
+        width: var(--cell-size);
+        height: var(--cell-size);
+    }
+
+    .date-number {
+        font-size: 13px;
+        margin-bottom: 2px;
+    }
+
+    .entries-summary {
+        font-size: 10px;
+        line-height: 1.25;
+        margin-top: 2px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+
+    .entry-item {
+        font-size: 10px;
+    }
+
+    /* Modal responsive - modals need scroll */
+    .modal-overlay {
+        overflow-y: auto;
+    }
+
+    .modal-content {
+        padding: 20px 16px;
+        width: 95%;
+        max-height: 85vh;
+        max-height: 85dvh;
+        overflow-y: auto;
+    }
+
+    /* Hide close buttons in search and on-this-day modals on mobile (use back button) */
+    #search-modal .close-btn,
+    #on-this-day-modal .close-btn {
+        display: none;
+    }
+
+    /* Timeline view shown below calendar on mobile */
+}
+
+@media screen and (max-width: 400px) {
+    :root {
+        --cell-size: calc((100vw - 30px - 6 * 3px) / 7);
+    }
+
+    body {
+        padding: 4px;
+    }
+
+    .app-header h1 {
+        font-size: 18px;
+    }
+
+    .header-actions .header-icon-btn {
+        padding: 5px;
+    }
+
+    .header-actions .header-icon-btn svg {
+        width: 14px;
+        height: 14px;
+    }
+
+    .calendar-container {
+        padding: 6px;
+    }
+
+    .calendar-grid {
+        gap: 2px;
+    }
+
+    .date-cell {
+        padding: 2px;
+        border-radius: 6px;
+    }
+
+    .date-number {
+        font-size: 11px;
+    }
+
+    .entries-summary {
+        font-size: 9px;
+        -webkit-line-clamp: 1;
+    }
+
+    #current-month-year {
+        font-size: 16px;
+    }
+}

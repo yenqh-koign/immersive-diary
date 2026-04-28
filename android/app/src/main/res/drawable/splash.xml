@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 主人希望"直接播放动画"，不要 launch theme 上的静态图标 -->
+    <!-- 所以 launch splash 只保留纯米白背景，等 WebView 加载好了由 HTML splash 接力做动画 -->
+    <item android:drawable="@color/splash_bg" />
+</layer-list>
