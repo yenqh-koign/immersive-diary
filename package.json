@@ -36,7 +36,19 @@
     "publish": null,
     "files": [
       "**/*",
-      "!node_modules/.bin"
+      "!node_modules/.bin",
+      "!dist/**",
+      "!release/**",
+      "!mobile-web/**",
+      "!android/**",
+      "!.ace-tool/**",
+      "!.claude/**",
+      "!.omc/**",
+      "!.git/**",
+      "!.env*",
+      "!*.log",
+      "!font-preview.html",
+      "!splash-preview.html"
     ],
     "win": {
       "target": "nsis",
