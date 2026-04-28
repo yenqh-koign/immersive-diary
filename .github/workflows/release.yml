@@ -1,0 +1,113 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag, for example v1.0.0"
+        required: true
+        default: "v1.0.0"
+      prerelease:
+        description: "Mark this release as a prerelease"
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.event.inputs.tag }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Build and publish Immersive Diary
+    runs-on: windows-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "17"
+
+      - name: Install dependencies
+        shell: pwsh
+        run: npm ci
+
+      - name: Verify JavaScript sources
+        shell: pwsh
+        run: |
+          $files = git ls-files -- "*.js"
+          foreach ($file in $files) {
+            node --check $file
+            if ($LASTEXITCODE -ne 0) {
+              exit $LASTEXITCODE
+            }
+          }
+
+      - name: Build Windows installer
+        shell: pwsh
+        run: |
+          npm run pack
+          $installer = Get-ChildItem -LiteralPath "dist" -Filter "*.exe" |
+            Sort-Object Length -Descending |
+            Select-Object -First 1
+          if ($null -eq $installer) {
+            throw "Windows installer was not created."
+          }
+
+      - name: Build Android APK
+        shell: pwsh
+        run: |
+          npm run mobile:sync
+          Push-Location android
+          ./gradlew.bat assembleDebug --no-daemon
+          Pop-Location
+          if (!(Test-Path -LiteralPath "android/app/build/outputs/apk/debug/app-debug.apk")) {
+            throw "Android APK was not created."
+          }
+
+      - name: Collect release assets
+        shell: pwsh
+        run: |
+          $tag = "${{ inputs.tag }}"
+          $assetDir = Join-Path $PWD "release-assets"
+          New-Item -ItemType Directory -Force -Path $assetDir | Out-Null
+
+          $installer = Get-ChildItem -LiteralPath "dist" -Filter "*.exe" |
+            Sort-Object Length -Descending |
+            Select-Object -First 1
+          Copy-Item -LiteralPath $installer.FullName -Destination (Join-Path $assetDir "Immersive-Diary-Windows-$tag.exe") -Force
+          Copy-Item -LiteralPath "android/app/build/outputs/apk/debug/app-debug.apk" -Destination (Join-Path $assetDir "Immersive-Diary-Android-$tag.apk") -Force
+
+      - name: Create GitHub Release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $tag = "${{ inputs.tag }}"
+          $args = @(
+            "release", "create", $tag,
+            "release-assets/Immersive-Diary-Windows-$tag.exe",
+            "release-assets/Immersive-Diary-Android-$tag.apk",
+            "--target", $env:GITHUB_SHA,
+            "--title", "Immersive Diary $tag",
+            "--notes", "Windows and Android release build for Immersive Diary.",
+            "--latest"
+          )
+          if ("${{ inputs.prerelease }}" -eq "true") {
+            $args += "--prerelease"
+          }
+          gh @args
