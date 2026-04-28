@@ -59,7 +59,7 @@ npm start
 npm run pack
 ```
 
-构建产物会生成在 `dist/` 中，该目录不会提交到 GitHub。
+构建产物会生成在 `dist/` 中。
 
 ## Android 构建
 
@@ -85,7 +85,7 @@ android/app/build/outputs/apk/debug/app-debug.apk
 
 - 日常改动优先修改 `src/`。
 - `mobile-web/` 是构建脚本生成的目录，不要手动维护。
-- `dist/`、`release/`、`node_modules/`、`mobile-web/`、Android 构建缓存和发布包都不会上传到 GitHub。
+- 构建产物、依赖目录和移动端同步目录可按需重新生成。
 - WebDAV 凭据保存在用户本机数据目录中，不应写入源码。
 
 ## 常用命令
